@@ -1,0 +1,38 @@
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request:
+jobs:
+  python-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install consensus-hardening-protocol
+      - run: |
+          python python/meshcfo-board-claim/main.py
+          python python/convergence-ma/main.py
+          python python/sec-earnings-workbench/main.py
+          python python/control-spine-icfr/main.py
+  rust-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: icohangar-ops/consensus-hardening-protocol
+          path: chp-spec
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo build --release
+        working-directory: rust/cleanmandate-gate
+      - name: Profile B conformance
+        run: |
+          SPEC=chp-spec/spec
+          if [ ! -f "$SPEC/conformance/run_conformance.py" ]; then
+            echo "spec/ not on default branch yet — skip until PR #1 merges"
+            exit 0
+          fi
+          python3 "$SPEC/conformance/run_conformance.py" \
+            --adapter-cmd "./rust/cleanmandate-gate/target/release/cleanmandate-gate" \
+            --profile B

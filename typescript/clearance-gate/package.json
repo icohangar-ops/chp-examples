@@ -1,0 +1,14 @@
+{
+  "name": "clearance-gate-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "demo": "tsx demo.ts"
+  },
+  "dependencies": {
+    "@cubiczan/chp": "file:../../../cubiczan-chp"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0"
+  }
+}
