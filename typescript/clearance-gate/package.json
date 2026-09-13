@@ -3,10 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "demo": "tsx demo.ts"
+    "demo": "tsx demo.ts",
+    "start": "tsx demo.ts"
   },
   "dependencies": {
-    "@cubiczan/chp": "file:../../../cubiczan-chp"
+    "@cubiczan/chp": "^0.1.1"
   },
   "devDependencies": {
     "tsx": "^4.19.0"

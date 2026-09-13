@@ -36,3 +36,18 @@ jobs:
           python3 "$SPEC/conformance/run_conformance.py" \
             --adapter-cmd "./rust/cleanmandate-gate/target/release/cleanmandate-gate" \
             --profile B
+
+  typescript-example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - name: Install from the npm registry
+        # A file: dependency here silently produces a dangling symlink: npm
+        # exits 0 and the demo then fails at runtime with ERR_MODULE_NOT_FOUND.
+        run: npm install
+        working-directory: typescript/clearance-gate
+      - name: Run the demo
+        run: npm start
+        working-directory: typescript/clearance-gate
